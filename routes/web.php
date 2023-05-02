@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TodoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,10 +20,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'role:user'])->name('dashboard');
-
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'role:user'])->name('dashboard');
+Route::middleware(['auth','role:user'])->group(function(){
+Route::controller(TodoController::class)->group(function(){
+    Route::get('/dashboard','index')->name('dashboard');
+    Route::get('/create','create');
+    Route::get('/edit','edit');
+    Route::post('/upload','upload');
+});
+});
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
