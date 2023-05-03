@@ -27,8 +27,11 @@ Route::middleware(['auth','role:user'])->group(function(){
 Route::controller(TodoController::class)->group(function(){
     Route::get('/dashboard','index')->name('dashboard');
     Route::get('/create','create');
-    Route::get('/edit','edit');
+    Route::get('/edit/{id}','edit');
+    Route::post('/update','update');
     Route::post('/upload','upload');
+    Route::get('/status/{id}','status');
+    Route::get('/delete/{id}','delete');
 });
 });
 Route::middleware('auth')->group(function () {
